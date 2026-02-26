@@ -43,6 +43,42 @@ async function writeJson(targetPath, value) {
   await fs.writeFile(targetPath, JSON.stringify(value, null, 2), "utf8");
 }
 
+async function normalizeWorkspaceFile(sourceWorkspacePath, targetWorkspacePath) {
+  const raw = await fs.readFile(sourceWorkspacePath, "utf8");
+
+  try {
+    const workspace = JSON.parse(raw);
+
+    if (!workspace || typeof workspace !== "object" || !Array.isArray(workspace.folders)) {
+      await fs.writeFile(targetWorkspacePath, raw, "utf8");
+      return;
+    }
+
+    const baseDir = path.dirname(sourceWorkspacePath);
+    const normalizedFolders = workspace.folders.map((folder) => {
+      if (!folder || typeof folder !== "object" || typeof folder.path !== "string") {
+        return folder;
+      }
+
+      if (path.isAbsolute(folder.path)) {
+        return folder;
+      }
+
+      return {
+        ...folder,
+        path: path.resolve(baseDir, folder.path)
+      };
+    });
+
+    await writeJson(targetWorkspacePath, {
+      ...workspace,
+      folders: normalizedFolders
+    });
+  } catch {
+    await fs.writeFile(targetWorkspacePath, raw, "utf8");
+  }
+}
+
 function getRootWorkspaceFolder() {
   const folders = vscode.workspace.workspaceFolders;
   if (!folders || folders.length === 0) {
@@ -140,6 +176,25 @@ function formatSettingsLabel(bundle) {
 
 function formatAddFolderLabel(bundle) {
   return bundle.workspaceFolderToAdd ? "有" : "無";
+}
+
+function formatCreatedAt(value) {
+  if (!value) {
+    return "-";
+  }
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return String(value);
+  }
+
+  return parsed.toLocaleString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
 }
 
 async function addFolderToWorkspace(targetFolderPath) {
@@ -292,7 +347,7 @@ async function registerBundle(context) {
   let workspaceRelative;
   if (workspaceFile) {
     workspaceRelative = "workspace.code-workspace";
-    await copyRecursive(workspaceFile, path.join(bundleDir, workspaceRelative), true);
+    await normalizeWorkspaceFile(workspaceFile, path.join(bundleDir, workspaceRelative));
   }
 
   bundles.push({
@@ -534,16 +589,25 @@ class BundleSidebarViewProvider {
     const rows = bundles
       .map((bundle) => {
         const label = escapeHtml(bundle.name);
-        const meta = `settings:${formatSettingsLabel(bundle)} / resources:${bundle.resources?.length || 0} / addFolder:${formatAddFolderLabel(bundle)} / workspace:${bundle.workspaceRelativePath ? "有" : "無"}`;
-        const metaEscaped = escapeHtml(meta);
-        const createdEscaped = escapeHtml(bundle.createdAt || "-");
+        const createdEscaped = escapeHtml(formatCreatedAt(bundle.createdAt));
+        const settingsEscaped = escapeHtml(formatSettingsLabel(bundle));
+        const resourcesEscaped = escapeHtml(String(bundle.resources?.length || 0));
+        const addFolderEscaped = escapeHtml(formatAddFolderLabel(bundle));
+        const workspaceEscaped = escapeHtml(bundle.workspaceRelativePath ? "有" : "無");
         const idEscaped = escapeHtml(bundle.id);
 
         return `
-          <div class="bundle-row">
-            <div class="bundle-title">${label}</div>
-            <div class="bundle-meta">${metaEscaped}</div>
-            <div class="bundle-meta">${createdEscaped}</div>
+          <div class="bundle-card">
+            <div class="bundle-header">
+              <div class="bundle-title">${label}</div>
+              <div class="bundle-date">${createdEscaped}</div>
+            </div>
+            <div class="bundle-stats">
+              <span class="stat-pill">settings: ${settingsEscaped}</span>
+              <span class="stat-pill">resources: ${resourcesEscaped}</span>
+              <span class="stat-pill">addFolder: ${addFolderEscaped}</span>
+              <span class="stat-pill">workspace: ${workspaceEscaped}</span>
+            </div>
             <div class="bundle-actions">
               <button data-action="apply" data-id="${idEscaped}">適用</button>
               <button data-action="delete" data-id="${idEscaped}" class="danger">削除</button>
@@ -564,57 +628,113 @@ class BundleSidebarViewProvider {
   <style>
     body {
       font-family: var(--vscode-font-family);
-      font-size: var(--vscode-font-size);
+      font-size: 13px;
       color: var(--vscode-foreground);
-      padding: 8px;
+      padding: 10px;
+      line-height: 1.45;
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--vscode-editor-background) 92%, #1d6fb8 8%) 0%,
+        var(--vscode-editor-background) 55%
+      );
     }
     .top-actions {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      margin-bottom: 12px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .top-actions > button {
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      text-align: center;
+      line-height: 1;
+      padding: 0 8px;
     }
     button {
       border: 1px solid var(--vscode-button-border, transparent);
       background: var(--vscode-button-background);
       color: var(--vscode-button-foreground);
-      border-radius: 4px;
-      padding: 6px 8px;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
+      transition: transform 90ms ease, filter 120ms ease;
     }
     button:hover {
       background: var(--vscode-button-hoverBackground);
+      filter: brightness(1.05);
+    }
+    button:active {
+      transform: translateY(1px);
     }
     .danger {
-      background: var(--vscode-inputValidation-errorBackground, var(--vscode-button-background));
-      color: var(--vscode-inputValidation-errorForeground, var(--vscode-button-foreground));
+      background: color-mix(in srgb, #d94b5a 78%, var(--vscode-button-background) 22%);
+      color: #ffffff;
+      border-color: color-mix(in srgb, #e56a76 75%, var(--vscode-button-border, transparent) 25%);
     }
-    .bundle-row {
-      border: 1px solid var(--vscode-editorWidget-border);
-      border-radius: 6px;
-      padding: 8px;
+    .danger:hover {
+      background: color-mix(in srgb, #e05b68 82%, var(--vscode-button-hoverBackground) 18%);
+    }
+    .bundle-card {
+      border: 1px solid color-mix(in srgb, var(--vscode-editorWidget-border) 70%, #4593d8 30%);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: linear-gradient(
+        160deg,
+        color-mix(in srgb, var(--vscode-editorWidget-background) 90%, #2a7ec5 10%) 0%,
+        var(--vscode-editorWidget-background) 100%
+      );
+      box-shadow: 0 3px 12px color-mix(in srgb, var(--vscode-editor-background) 80%, #000 20%);
+    }
+    .bundle-header {
+      display: flex;
+      gap: 8px;
+      justify-content: space-between;
+      align-items: flex-start;
       margin-bottom: 8px;
-      background: var(--vscode-editorWidget-background);
     }
     .bundle-title {
-      font-weight: 600;
-      margin-bottom: 4px;
+      font-weight: 700;
+      font-size: 14px;
       word-break: break-word;
     }
-    .bundle-meta {
-      opacity: 0.85;
-      font-size: 11px;
-      margin-bottom: 2px;
-      word-break: break-word;
+    .bundle-date {
+      font-size: 12px;
+      color: var(--vscode-descriptionForeground);
+      background: color-mix(in srgb, var(--vscode-editor-background) 82%, #4f9ee0 18%);
+      border: 1px solid color-mix(in srgb, var(--vscode-editorWidget-border) 70%, #4f9ee0 30%);
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .bundle-stats {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 9px;
+    }
+    .stat-pill {
+      font-size: 12px;
+      color: var(--vscode-foreground);
+      background: color-mix(in srgb, var(--vscode-editor-background) 88%, #3f89c8 12%);
+      border: 1px solid var(--vscode-editorWidget-border);
+      border-radius: 999px;
+      padding: 2px 7px;
     }
     .bundle-actions {
       display: flex;
-      gap: 6px;
-      margin-top: 6px;
+      gap: 8px;
     }
     .empty {
       opacity: 0.8;
-      padding: 8px 0;
+      padding: 10px 2px;
+      font-size: 13px;
     }
   </style>
 </head>
