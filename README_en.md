@@ -7,6 +7,8 @@
 
 Bandle Manager is a VS Code extension that lets you pre-register reusable "bundles" of settings and resources you want to apply to a VS Code workspace.
 
+![image](/image/00001.jpg)
+
 ## What You Can Do
 
 - Register bundles
