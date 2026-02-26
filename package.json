@@ -1,0 +1,67 @@
+{
+  "name": "add-config-bundles",
+  "displayName": "Bandle Manager",
+  "description": "Register and apply reusable workspace bundles (settings, files/folders, and saved workspace).",
+  "version": "0.0.2",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.86.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:addConfigBundles.registerBundle",
+    "onCommand:addConfigBundles.applyBundle",
+    "onCommand:addConfigBundles.deleteBundle",
+    "onCommand:addConfigBundles.listBundles",
+    "onCommand:addConfigBundles.refreshSidebar",
+    "onView:addConfigBundles.sidebarView"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "addConfigBundles.registerBundle",
+        "title": "Bandle Manager: Register Bundle"
+      },
+      {
+        "command": "addConfigBundles.applyBundle",
+        "title": "Bandle Manager: Apply Bundle"
+      },
+      {
+        "command": "addConfigBundles.deleteBundle",
+        "title": "Bandle Manager: Delete Bundle"
+      },
+      {
+        "command": "addConfigBundles.listBundles",
+        "title": "Bandle Manager: List Bundles"
+      },
+      {
+        "command": "addConfigBundles.refreshSidebar",
+        "title": "Bandle Manager: Refresh Sidebar"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "addConfigBundlesContainer",
+          "title": "Bandle Manager",
+          "icon": "media/bundles.svg"
+        }
+      ]
+    },
+    "views": {
+      "addConfigBundlesContainer": [
+        {
+          "id": "addConfigBundles.sidebarView",
+          "name": "Bandle Manager",
+          "type": "webview"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "lint": "echo \"No lint configured\""
+  }
+}
