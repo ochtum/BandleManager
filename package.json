@@ -1,9 +1,10 @@
 {
   "name": "add-config-bundles",
   "displayName": "Bandle Manager",
-  "description": "Register and apply reusable workspace bundles (settings, files/folders, and saved workspace).",
-  "version": "0.0.4",
-  "publisher": "local",
+  "description": "VS Code workspace へ適用したい内容を、事前に「バンドル」として登録して再利用するVS Code拡張機能です。",
+  "version": "0.0.5",
+  "publisher": "ochtum",
+  "icon": "media/extension-icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/ochtum/BandleManager.git"
