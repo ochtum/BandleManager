@@ -20,6 +20,12 @@ Bandle Manager is a VS Code extension that lets you pre-register reusable "bundl
   - Add the specified folder to the current workspace
   - Open the saved workspace
 
+## Installation
+
+1. In VS Code, open the Extensions view and click the three-dot menu (`...`).
+2. Click `Install from VSIX...`.
+3. In the file picker, select the VSIX file (`bandle-manager-X.X.X.vsix`) and click `Install`.
+
 ## How to Use (Sidebar UI)
 
 1. Click the `Bandle Manager` icon in the left activity bar.

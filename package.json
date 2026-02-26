@@ -1,8 +1,8 @@
 {
-  "name": "add-config-bundles",
+  "name": "bandle-manager",
   "displayName": "Bandle Manager",
   "description": "VS Code workspace へ適用したい内容を、事前に「バンドル」として登録して再利用するVS Code拡張機能です。",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "ochtum",
   "icon": "media/extension-icon.png",
   "repository": {
