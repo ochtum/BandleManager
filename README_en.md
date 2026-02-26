@@ -48,3 +48,5 @@ Bandle Manager is a VS Code extension that lets you pre-register reusable "bundl
 
 - Bundle data is stored in VS Code `globalStorage`.
 - Settings merge on apply is shallow. If the same key exists, the bundle value overwrites the existing value.
+
+## ❗This project is licensed under the MIT License, see the LICENSE file for details
