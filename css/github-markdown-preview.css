@@ -1,0 +1,222 @@
+/* VS Code Markdown Preview: GitHub Light baseline */
+
+:root {
+  --gh-fg-default: #24292f;
+  --gh-fg-muted: #57606a;
+  --gh-bg-default: #ffffff;
+  --gh-bg-muted: #f6f8fa;
+  --gh-border-default: #d0d7de;
+  --gh-link: #0969da;
+  --gh-inline-code-bg: rgba(175, 184, 193, 0.2);
+  --syntax-comment: #6e7781;
+  --syntax-keyword: #cf222e;
+  --syntax-title: #8250df;
+  --syntax-string: #0a3069;
+  --syntax-number: #0550ae;
+  --syntax-attr: #953800;
+  --focus-color-keyboard: #cf222e;
+  --focus-color-mouse: #0969da;
+  --focus-bg-keyboard: rgba(207, 34, 73, 0.07);
+  --focus-bg-mouse: rgba(9, 105, 218, 0.06);
+}
+
+html,
+body {
+  background-color: var(--gh-bg-default) !important;
+  color: var(--gh-fg-default) !important;
+}
+
+/* Keep selectors broad because VS Code preview DOM differs by version */
+:where(.markdown-body, .vscode-body, body) {
+  box-sizing: border-box;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 32px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--gh-fg-default);
+  background-color: var(--gh-bg-default);
+}
+
+:where(.markdown-body, .vscode-body, body) h1,
+:where(.markdown-body, .vscode-body, body) h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--gh-border-default);
+}
+
+:where(.markdown-body, .vscode-body, body) h1,
+:where(.markdown-body, .vscode-body, body) h2,
+:where(.markdown-body, .vscode-body, body) h3,
+:where(.markdown-body, .vscode-body, body) h4,
+:where(.markdown-body, .vscode-body, body) h5,
+:where(.markdown-body, .vscode-body, body) h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--gh-fg-default);
+}
+
+:where(.markdown-body, .vscode-body, body) p,
+:where(.markdown-body, .vscode-body, body) ul,
+:where(.markdown-body, .vscode-body, body) ol,
+:where(.markdown-body, .vscode-body, body) blockquote,
+:where(.markdown-body, .vscode-body, body) table,
+:where(.markdown-body, .vscode-body, body) pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+:where(.markdown-body, .vscode-body, body) ul,
+:where(.markdown-body, .vscode-body, body) ol {
+  padding-left: 2em;
+}
+
+:where(.markdown-body, .vscode-body, body) li + li {
+  margin-top: 0.25em;
+}
+
+:where(.markdown-body, .vscode-body, body) a {
+  color: var(--gh-link);
+  text-decoration: none;
+}
+
+:where(.markdown-body, .vscode-body, body) a:hover {
+  text-decoration: underline;
+}
+
+:where(.markdown-body, .vscode-body, body) hr {
+  height: 0.25em;
+  margin: 24px 0;
+  padding: 0;
+  border: 0;
+  background-color: var(--gh-border-default);
+}
+
+:where(.markdown-body, .vscode-body, body) blockquote {
+  padding: 0 1em;
+  color: var(--gh-fg-muted);
+  border-left: 0.25em solid var(--gh-border-default);
+}
+
+:where(.markdown-body, .vscode-body, body) :not(pre) > code {
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  border: 0;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 85%;
+  color: var(--gh-fg-default) !important;
+  background-color: var(--gh-inline-code-bg) !important;
+}
+
+:where(.markdown-body, .vscode-body, body) pre {
+  overflow: auto;
+  padding: 16px;
+  border-radius: 6px;
+  border: 1px solid var(--gh-border-default);
+  background-color: var(--gh-bg-muted) !important;
+  color: var(--gh-fg-default) !important;
+  line-height: 1.45;
+  font-size: 85%;
+}
+
+:where(.markdown-body, .vscode-body, body) pre code {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  font-size: 100%;
+  color: inherit !important;
+  background: transparent !important;
+}
+
+/* GitHub-light-ish highlight mapping for VS Code markdown preview (hljs) */
+:where(.markdown-body, .vscode-body, body) .hljs {
+  color: var(--gh-fg-default) !important;
+  background: transparent !important;
+}
+
+:where(.markdown-body, .vscode-body, body) .hljs-comment,
+:where(.markdown-body, .vscode-body, body) .hljs-quote {
+  color: var(--syntax-comment) !important;
+}
+
+:where(.markdown-body, .vscode-body, body) .hljs-keyword,
+:where(.markdown-body, .vscode-body, body) .hljs-selector-tag,
+:where(.markdown-body, .vscode-body, body) .hljs-doctag {
+  color: var(--syntax-keyword) !important;
+}
+
+:where(.markdown-body, .vscode-body, body) .hljs-title,
+:where(.markdown-body, .vscode-body, body) .hljs-title.function_,
+:where(.markdown-body, .vscode-body, body) .hljs-title.class_ {
+  color: var(--syntax-title) !important;
+}
+
+:where(.markdown-body, .vscode-body, body) .hljs-string,
+:where(.markdown-body, .vscode-body, body) .hljs-regexp {
+  color: var(--syntax-string) !important;
+}
+
+:where(.markdown-body, .vscode-body, body) .hljs-number,
+:where(.markdown-body, .vscode-body, body) .hljs-literal,
+:where(.markdown-body, .vscode-body, body) .hljs-operator,
+:where(.markdown-body, .vscode-body, body) .hljs-meta {
+  color: var(--syntax-number) !important;
+}
+
+:where(.markdown-body, .vscode-body, body) .hljs-attr,
+:where(.markdown-body, .vscode-body, body) .hljs-attribute,
+:where(.markdown-body, .vscode-body, body) .hljs-variable,
+:where(.markdown-body, .vscode-body, body) .hljs-type,
+:where(.markdown-body, .vscode-body, body) .hljs-selector-class,
+:where(.markdown-body, .vscode-body, body) .hljs-selector-id {
+  color: var(--syntax-attr) !important;
+}
+
+:where(.markdown-body, .vscode-body, body) table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: auto;
+  border-collapse: collapse;
+}
+
+:where(.markdown-body, .vscode-body, body) table th,
+:where(.markdown-body, .vscode-body, body) table td {
+  padding: 6px 13px;
+  border: 1px solid var(--gh-border-default);
+}
+
+:where(.markdown-body, .vscode-body, body) table tr {
+  border-top: 1px solid var(--gh-border-default);
+  background-color: var(--gh-bg-default);
+}
+
+:where(.markdown-body, .vscode-body, body) table tr:nth-child(2n) {
+  background-color: var(--gh-bg-muted);
+}
+
+:where(.markdown-body, .vscode-body, body) img {
+  max-width: 100%;
+  height: auto;
+  background: transparent;
+}
+
+/* VS Code Markdown Preview line marker */
+:where(.markdown-body, .vscode-body, body) .code-line,
+:where(.markdown-body, .vscode-body, body) .code-active-line {
+  position: relative;
+}
+
+/* Mouse hover marker (blue) */
+:where(.markdown-body, .vscode-body, body) .code-line:hover {
+  box-shadow: inset 3px 0 0 var(--focus-color-mouse) !important;
+  background-color: var(--focus-bg-mouse);
+}
+
+/* Keyboard/editor-linked active marker (red) */
+:where(.markdown-body, .vscode-body, body) .code-active-line {
+  box-shadow: inset 3px 0 0 var(--focus-color-keyboard) !important;
+  background-color: var(--focus-bg-keyboard);
+}

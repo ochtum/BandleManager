@@ -5,24 +5,24 @@
 
 # Bandle Manager
 
-Bandle Manager is a VS Code extension that lets you pre-register reusable "bundles" of settings and resources you want to apply to a VS Code workspace.
+This VS Code extension lets you pre-register content you want to apply to a VS Code workspace as reusable "bundles."
 
 ![image](/image/00001.jpg)
 
-## What You Can Do
+## Features
 
-- Register bundles
-  - Register workspace settings (`.vscode/settings.json`) (you can also select only specific keys to register)
-  - Register files/folders you want to copy into a workspace (you can select multiple times, separately for file additions and folder additions)
+- Bundle registration
+  - Register workspace settings (`.vscode/settings.json`) (you can also register only selected keys)
+  - Register files/folders you want to copy to a workspace (you can select multiple times, separately for adding files and adding folders)
   - Register one folder to add to the workspace at apply time (confirmation appears before selecting a saved workspace)
-  - Register a saved workspace (by specifying a `.code-workspace` file)
-- Apply bundles
+  - Register a saved workspace (specify a `.code-workspace` file)
+- Bundle application
   - Merge settings into workspace settings
   - Copy files/folders into the workspace
   - Add the specified folder to the current workspace
   - Open the saved workspace
 
-## Installation
+## Installation Steps
 
 1. In VS Code, open the Extensions view and click the three-dot menu (`...`).
 2. Click `Install from VSIX...`.
@@ -31,13 +31,13 @@ Bandle Manager is a VS Code extension that lets you pre-register reusable "bundl
 ## How to Use (Sidebar UI)
 
 1. Click the `Bandle Manager` icon in the left activity bar.
-2. Use the controls in `Bandle Manager`.
+2. Operate from `Bandle Manager`.
    - `登録`: Create a new bundle
    - `一覧テキスト`: Show the bundle list as text in a separate tab
    - `更新`: Reload the sidebar
-- Per-bundle actions
-   - `適用`: Apply button for each bundle
-   - `削除`: Delete button for each bundle
+- Per-bundle operations
+  - `適用`: Apply each bundle
+  - `削除`: Delete each bundle
 
 ## Also Available from the Command Palette
 
@@ -46,9 +46,22 @@ Bandle Manager is a VS Code extension that lets you pre-register reusable "bundl
 - `Bandle Manager: Delete Bundle`
 - `Bandle Manager: List Bundles`
 
+## Files Provided for Users
+
+For people using this VS Code extension, we provide the following folders/settings. Feel free to use them.
+
+- `css/`
+  - Styles for Markdown preview (example: `css/github-markdown-preview.css`)
+- `assets/`
+  - Image/SVG assets used in README and other files (example: `assets/dividers/*.svg`). At the moment, only horizontal divider assets are included.
+- `.vscode/`
+  - Workspace settings (example: `markdown.styles` in `.vscode/settings.json`)
+
+By including the `css` folder, `assets` folder, and config files under `.vscode` when registering a bundle in `Bandle Manager`, you can distribute the same structure to target workspaces in one step.
+
 ## Notes
 
 - Bundle data is stored in VS Code `globalStorage`.
-- Settings merge on apply is shallow. If the same key exists, the bundle value overwrites the existing value.
+- Settings are merged shallowly on apply. If the same key exists, the bundle value overwrites the existing value.
 
-## ❗This project is licensed under the MIT License, see the LICENSE file for details
+## ❗This project is licensed under the MIT License. See the LICENSE file for details.

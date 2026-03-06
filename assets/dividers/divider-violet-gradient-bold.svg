@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="14" viewBox="0 0 1200 14" preserveAspectRatio="none" role="img" aria-label="violet gradient bold divider">
+  <defs>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4B1D88" />
+      <stop offset="30%" stop-color="#6F3DC9" />
+      <stop offset="50%" stop-color="#C6A7FF" />
+      <stop offset="70%" stop-color="#6F3DC9" />
+      <stop offset="100%" stop-color="#4B1D88" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="3" width="1200" height="8" rx="4" fill="url(#line)" />
+</svg>
