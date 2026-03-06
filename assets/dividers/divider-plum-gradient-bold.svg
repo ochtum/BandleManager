@@ -8,5 +8,5 @@
       <stop offset="100%" stop-color="#5A1E62" />
     </linearGradient>
   </defs>
-  <rect x="0" y="3" width="1200" height="8" rx="4" fill="url(#line)" />
+  <rect x="0" y="4" width="1200" height="6" rx="3" fill="url(#line)" />
 </svg>
